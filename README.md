@@ -1,4 +1,4 @@
-# mde
+# Markdown Editor
 
 ## Project setup
 ```
