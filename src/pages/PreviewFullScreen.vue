@@ -15,6 +15,11 @@ export default {
 
   mounted() {
     document.title = localStorage.getItem('mdTitle');
+    window.print();
+    //确认打印或取消打印时关闭当前窗口
+    window.onafterprint = () => {
+      window.close();
+    };
   }
 }
 </script>
