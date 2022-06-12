@@ -3,14 +3,15 @@
     <div class="topbar">
       <n-button quaternary size="tiny" @click="newMd()">新建</n-button>
       <n-button quaternary size="tiny" @click="upLoadMarkdown">导入</n-button>
-      <n-button
-        quaternary
-        size="tiny"
-        @click="downloadAsMarkdown"
-        :disabled="!exportAble"
-      >导出
-      </n-button>
-      <n-button quaternary size="tiny" @click="openFullScreenReview">全屏预览</n-button>
+      <n-dropdown
+        placement="bottom-start"
+        trigger="click"
+        size="small"
+        :options="exportType"
+        @select="exportDoc"
+      >
+        <n-button quaternary size="tiny" :disabled="!exportAble">导出</n-button>
+      </n-dropdown>
     </div>
     <div class="main">
       <div class="tabbar">
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { NButton, NIcon } from 'naive-ui';
+import { NButton, NIcon, NDropdown } from 'naive-ui';
 import { CancelFilled } from '@vicons/material';
 import Editor from '../components/Editor.vue'
 
@@ -42,17 +43,19 @@ export default {
     NButton,
     CancelFilled,
     NIcon,
+    NDropdown,
     Editor
   },
   data() {
     return {
+      exportType: [
+        {label: '导出为 Markdown', key: 'markdown'},
+        {label: '导出为 PDF', key: 'pdf'}
+      ],
       mdList: [//文档列表
         {
           title: '欢迎使用 Markdown Editor.md',
-          content: `# 欢迎使用 Markdown Editor
-- 点击 \`新建\` 或 \`导入\` 开始编辑文档💻。
-- 点击 \`导出\` 可导出 ***markdown*** 文件 。
-- 点击 \`全屏预览\` 将会打开一个新的浏览器标签页用于单独显示预览（内容非实时更新），然后可使用浏览器的打印功能导出为 ***pdf*** 文件。`
+          content: '# 欢迎使用 Markdown Editor\r- 点击 `新建` 或 `导入` 开始编辑文档💻。'
         }
       ],
       currentMdIndex: 0,//当前文档序号
@@ -138,6 +141,20 @@ export default {
       });
       window.open(href, '_blank');
     },
+
+    //导出文件
+    exportDoc: function(key) {
+      switch (key) {
+        case 'markdown':
+          this.downloadAsMarkdown();
+          break;
+        case 'pdf':
+          this.openFullScreenReview();
+          break;
+        default:
+          break;
+      }
+    }
   },
 
   computed: {
@@ -197,7 +214,7 @@ export default {
 }
 .tabbar > .tab.active {
   background: #eee;
-  color: #83b56f;
+  color: #9c6644;
 }
 .tabbar > .tab > div {
   margin-left: 16px;
