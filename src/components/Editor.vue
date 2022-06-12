@@ -2,7 +2,6 @@
   <div class="editor">
     <div class="source">
       <textarea
-        wrap="off"
         v-model="mdText"
         @input="emitMd"
       >
