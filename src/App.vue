@@ -25,10 +25,11 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, onMounted } from 'vue';
 import MenuBar from './components/MenuBar.vue';
 import FileNavBar from './components/FileNavBar.vue';
 import MarkdownEditor from './components/MarkdownEditor';
+import gMessage from './utils/globalMessage';
 
 const fileList = reactive([]);
 const selectedIndex = ref(0);
@@ -73,7 +74,6 @@ const handleDataChange = (data) => {
 // 获取localStorage中的数据
 const getData = () => {
   const fileListJson = localStorage.getItem('mdFileList');
-  console.log(typeof fileListJson);
   if (fileListJson && fileListJson !== '[]') {
     const data = JSON.parse(fileListJson);
     fileList.length = 0;
@@ -101,6 +101,16 @@ window.onbeforeunload = () => {
   saveData();
 }
 
+onMounted(() => {
+  // 按下ctrl+s时保存
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key == 's') {
+      saveData();
+      gMessage.sucsses('保存成功');
+      e.preventDefault();
+    }
+  });
+})
 </script>
 
 <style scoped>
