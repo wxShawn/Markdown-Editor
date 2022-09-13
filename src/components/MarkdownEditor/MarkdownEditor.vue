@@ -265,6 +265,7 @@ const handleTabKeyDown = (e) => {
   }
 
   .markdown-editor .container > .html-box {
+    display: block !important;
     padding: 0 !important;
     overflow-y: visible !important;
   }

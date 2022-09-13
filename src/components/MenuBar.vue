@@ -10,7 +10,7 @@
       <transition name="fade">
         <div class="btn-options" v-show="showExportOptions">
           <div @click="handleExportMarkdown">导出为 Markdown</div>
-          <div @click="handleExportPdf">导出为 PDF(需开启预览)</div>
+          <div @click="handleExportPdf">导出为 PDF</div>
         </div>
       </transition>
     </button>
