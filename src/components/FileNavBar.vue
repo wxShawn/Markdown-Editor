@@ -4,6 +4,7 @@
       <div
         class="file"
         :class="{ active: index === selectedIndex }"
+        :title="`${file.title}.md`"
         v-for="(file, index) in fileList"
         :key="file"
         @click="handleFileCLick(index)"
