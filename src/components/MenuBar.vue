@@ -2,24 +2,19 @@
   <div class="menu-bar">
     <button class="btn" @click="handleAddClick">新建</button>
     <button class="btn" @click="handleImport">导入</button>
-    <button class="btn"
+    <dropdown
       :disabled="!selectedFile"
-      @click="showExportOptions = !showExportOptions"
-      @blur="showExportOptions = false"
-    >导出
-      <transition name="fade">
-        <div class="btn-options" v-show="showExportOptions">
-          <div @click="handleExportMarkdown">导出为 Markdown</div>
-          <div @click="handleExportPdf">导出为 PDF</div>
-        </div>
-      </transition>
-    </button>
+      title="导出"
+      :options="exportOptions"
+    />
     <button class="btn" disabled>查看</button>
+    <dropdown title="帮助" :options="helpOptions" />
   </div>
 </template>
 
 <script setup>
-import { computed, ref, toRefs } from 'vue';
+import { computed, reactive, ref, toRefs } from 'vue';
+import Dropdown from './common/Dropdown.vue';
 
 const props = defineProps({
   fileList: Array,
@@ -64,14 +59,30 @@ const handleImport = () => {
   link.click();
 }
 
-// 显示导出下拉菜单
-const showExportOptions = ref(false);
-
 // 当前选中file
 const selectedFile = computed(() => {
   const file = fileList.value[selectedIndex.value];
   return file ? file : null;
 });
+
+/**
+ * ********** 导出 **********
+ */
+
+ const exportOptions = [
+  {
+    value: '导出为 Markdown',
+    click() {
+      handleExportMarkdown();
+    }
+  },
+  {
+    value: '导出为 PDF',
+    click() {
+      handleExportPdf();
+    }
+  }
+ ]
 
 // 导出为markdown
 const handleExportMarkdown = () => {
@@ -88,6 +99,36 @@ const handleExportMarkdown = () => {
 // 导出为PDF
 const handleExportPdf = () => {
   window.print();
+}
+
+/**
+ * ********** 帮助 **********
+ */
+const helpOptions = reactive([
+  {
+    value: '使用说明',
+    click() {
+      openUsersManual()
+    }
+  },
+  { 
+    value: '关于', 
+    click() {
+      openAbout();
+    }
+  }
+]);
+
+// 打开关于页面
+const openAbout = async () => {
+  const about = await (await import('../doc/about')).default;
+  emits('add', about);
+}
+
+// 打开使用说明页面
+const openUsersManual = async () => {
+  const usersManual = await (await import('../doc/usersManual')).default;
+  emits('add', usersManual);
 }
 </script>
 
