@@ -96,9 +96,14 @@ const saveData = () => {
   localStorage.setItem('mdSelectedIndex', selectedIndex.value);
 }
 
-// 页面关闭时保存
-window.onbeforeunload = () => {
-  saveData();
+// 关闭页面时有内容未保存，提醒用户保存
+window.onbeforeunload = (e) => {
+  const oldJson = localStorage.getItem('mdFileList');
+  const newJson = JSON.stringify(fileList);
+  console.log(oldJson === newJson);
+  if (newJson !== oldJson) {
+    e.returnValue = '';
+  }
 }
 
 onMounted(() => {
