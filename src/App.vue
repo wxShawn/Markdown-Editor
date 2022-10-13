@@ -119,22 +119,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@media print {
-  .no-print {
-    display: none !important;
-  }
-
-  .editor {
-    top: 0 !important;
-  }
-}
-
 .editor {
-  position: absolute;
-  top: 65px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: calc(100vh - 65px);
 }
 
 .saying {
@@ -144,5 +130,15 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   color: #aaa;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .editor {
+    height: 100vh;
+  }
 }
 </style>

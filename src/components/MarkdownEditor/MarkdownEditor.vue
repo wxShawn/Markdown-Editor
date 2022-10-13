@@ -251,26 +251,6 @@ const handleTabKeyDown = (e) => {
 </script>
 
 <style scoped>
-@media print {
-  .no-print {
-    display: none !important;
-  }
-
-  .markdown-editor {
-    border: none !important;
-  }
-
-  .markdown-editor .container {
-    top: 0 !important;
-  }
-
-  .markdown-editor .container > .html-box {
-    display: block !important;
-    padding: 0 !important;
-    overflow-y: visible !important;
-  }
-}
-
 .btn {
   height: 22px;
   border: none;
@@ -365,5 +345,25 @@ const handleTabKeyDown = (e) => {
   padding: 20px;
   background: #fff;
   overflow-y: auto;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .markdown-editor {
+    border: none;
+  }
+
+  .markdown-editor .container {
+    top: 0;
+  }
+
+  .markdown-editor .container > .html-box {
+    display: block;
+    padding: 0;
+    overflow-y: visible;
+  }
 }
 </style>
